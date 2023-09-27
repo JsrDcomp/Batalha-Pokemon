@@ -1,2 +1,2 @@
 # Batalha-Pokemon
-Equipe -J 
+# Equipe -J 
