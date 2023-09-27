@@ -1,1 +1,2 @@
 # Batalha-Pokemon
+Equipe -J 
