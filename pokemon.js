@@ -3,7 +3,15 @@ var opHP = 100;
 opAttacks = [flameThrower, dragonClaw, ember, growl];
 playerMove = 0;
 /* users moves */
-function waterCannon() {
+
+/* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
+const waterCannon = () => atack(1)
+const  waterPulse = () => atack(2)
+const surf = () => atack(3)
+const tackle = () => atack(4)
+
+
+const atack = (damage) => {
   if(playerMove == 0 && userHP != 0) {
     var miss = Math.floor((Math.random() * 10) + 1); // miss rate
     if(miss == 1) {
@@ -14,11 +22,11 @@ function waterCannon() {
       var critical = Math.floor((Math.random() * 10) + 1); // critical
       if(critical == 4){
         for(var x = 0; x < 2; x++){
-          opHP = opHP - 30; // yes critical
+          opHP = opHP - damage; // yes critical
         }
       }
       else{
-        opHP = opHP - 30; // no critical
+        opHP = opHP - damage; // no critical
       }
       if(opHP < 0){ opHP = 0} //faint
         document.getElementById('apHP').innerHTML = opHP; // update hp
@@ -30,95 +38,6 @@ function waterCannon() {
     playerMove = 1; // update player move
 }
 }
-
-function waterPulse() {
-  if(playerMove == 0 && userHP != 0) {
-  var miss = Math.floor((Math.random() * 10) + 1);
-  if(miss == 1 ) {
-    document.getElementById('message').innerHTML = " Blastoise's attack missed! "
-  }
-  else {
-    document.getElementById('message').innerHTML = " Blastoise used water pulse ";
-    var critical = Math.floor((Math.random() * 10) + 1);
-      if(critical == 4){
-        for(var x = 0; x < 2; x++){
-          opHP = opHP - 20;
-        }
-      }
-      else{
-        opHP = opHP - 20;
-      }
-    if(opHP < 0 ) { opHP = 0}
-    document.getElementById('apHP').innerHTML = opHP;
-    //document.getElementById('message').innerHTML = " Charizard2 "
-    if(opHP == 0){
-      document.getElementById('message').innerHTML = " Charizard fainted! "
-    }
-  }
-  //wait();
-  playerMove = 1;
-}
-}
-
-function surf() {
-  if(playerMove == 0 && userHP != 0) {
-  //alert("Water Cannon!");
-  var miss = Math.floor((Math.random() * 10) + 1);
-  if(miss == 1 ) {
-    document.getElementById('message').innerHTML = " Blastoise's attack missed! "
-  }
-  else {
-    document.getElementById('message').innerHTML = " Blastoise used surf ";
-    var critical = Math.floor((Math.random() * 10) + 1);
-      if(critical == 4){
-        for(var x = 0; x < 2; x++){
-          opHP = opHP - 10;
-        }
-      }
-      else{
-        opHP = opHP - 10;
-      }
-    if(opHP < 0 ) { opHP = 0}
-    document.getElementById('apHP').innerHTML = opHP;
-    if(opHP == 0){
-      document.getElementById('message').innerHTML = " Charizard fainted! "
-    }
-  }
-  //wait();
-  playerMove = 1;
-}
-}
-function tackle() {
-  if(playerMove == 0 && userHP != 0) {
-  //alert("Water Cannon!");
-  var miss = Math.floor((Math.random() * 10) + 1);
-  if(miss == 1 ) {
-    document.getElementById('message').innerHTML = " Blastoise's attack missed! "
-  }
-  else {
-    document.getElementById('message').innerHTML = " Blastoise used tackle ";
-    var critical = Math.floor((Math.random() * 10) + 1);
-      if(critical == 4){
-        for(var x = 0; x < 2; x++){
-          opHP = opHP - 5;
-        }
-      }
-      else{
-        opHP = opHP - 5;
-      }
-    if(opHP < 0){ opHP = 0}
-    document.getElementById('apHP').innerHTML = opHP;
-  //document.getElementById('message').innerHTML = " Charizard4 "
-    if(opHP == 0){
-      document.getElementById('message').innerHTML = " Charizard fainted! "
-    }
-  }
-  //wait();
-  playerMove = 1;
-}
-}
-
-
 
 /* opponent's moves */
 
