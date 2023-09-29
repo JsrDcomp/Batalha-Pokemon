@@ -2,7 +2,7 @@ var userHP = 100;
 var opHP = 100;
 opAttacks = [flameThrower, dragonClaw, ember, growl];
 playerMove = 0;
-/* users moves */
+/* movimentos do usuário */
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
 const waterCannon = () => atack(1)
@@ -13,54 +13,54 @@ const tackle = () => atack(4)
 
 const atack = (damage) => {
   if(playerMove == 0 && userHP != 0) {
-    var miss = Math.floor((Math.random() * 10) + 1); // miss rate
+    var miss = Math.floor((Math.random() * 10) + 1); // chance de erro
     if(miss == 1) {
       document.getElementById('message').innerHTML = " Blastoise's attack missed! ";
     }
     else {
-      document.getElementById('message').innerHTML = " Blastoise used water cannon "; // attack
-      var critical = Math.floor((Math.random() * 10) + 1); // critical
+      document.getElementById('message').innerHTML = " Blastoise used water cannon "; // ataque
+      var critical = Math.floor((Math.random() * 10) + 1); // chanche de critico
       if(critical == 4){
         for(var x = 0; x < 2; x++){
-          opHP = opHP - damage; // yes critical
+          opHP = opHP - damage; // dano critico
         }
       }
       else{
-        opHP = opHP - damage; // no critical
+        opHP = opHP - damage; // sem critico
       }
       if(opHP < 0){ opHP = 0} //faint
-        document.getElementById('apHP').innerHTML = opHP; // update hp
+        document.getElementById('apHP').innerHTML = opHP; // atualiza o hp
       if(opHP == 0){
-        document.getElementById('message').innerHTML = " Charizard fainted! " // update message
+        document.getElementById('message').innerHTML = " Charizard fainted! " // atualiza a mensagem
       }
     }
-    //wait();
-    playerMove = 1; // update player move
+    //espera();
+    playerMove = 1; // atualiza o movimento do jogador
 }
 }
 
-/* opponent's moves */
+/* movimentos dos oponentes */
 
 function flameThrower() {
-  var miss = Math.floor((Math.random() * 10) + 1); // miss rate
+  var miss = Math.floor((Math.random() * 10) + 1); // chance de erro
   if(miss == 1 ) {
-  document.getElementById('message').innerHTML = " Charizard's attack missed! " // attack missed
+  document.getElementById('message').innerHTML = " Charizard's attack missed! " // errou o ataque
   }
   else {
-  document.getElementById('message').innerHTML = " Charizard used flame thrower " // attack
-    var critical = Math.floor((Math.random() * 10) + 1); // critical
+  document.getElementById('message').innerHTML = " Charizard used flame thrower " // ataque
+    var critical = Math.floor((Math.random() * 10) + 1); // critico
       if(critical == 4){
-        for(var x = 0; x < 2; x++){ // yes critical
+        for(var x = 0; x < 2; x++){ // dano critico
           userHP = userHP - 30;
         }
       }
       else{
-        userHP = userHP - 30; // no critical
+        userHP = userHP - 30; // sem critico
       }
-  if(userHP < 0) { userHP = 0} // faint
-  document.getElementById('myHP').innerHTML = userHP; // update hp
-    if(userHP == 0) { // fainted
-      document.getElementById('message').innerHTML = " Blastoise fainted! " // fainted
+  if(userHP < 0) { userHP = 0} // desmaio
+  document.getElementById('myHP').innerHTML = userHP; // atualiza o hp
+    if(userHP == 0) { // desmaiado
+      document.getElementById('message').innerHTML = " Blastoise fainted! " // desmaiado
     }
   }
 }
