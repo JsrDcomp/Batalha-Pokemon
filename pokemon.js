@@ -5,25 +5,26 @@ playerMove = 0;
 /* movimentos do usuário */
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
-const waterCannon = () => atack(1)
-const  waterPulse = () => atack(2)
-const surf = () => atack(3)
-const tackle = () => atack(4)
+const waterCannon = () => attack(1)
+const  waterPulse = () => attack(2)
+const surf = () => attack(3)
+const tackle = () => attack(4)
 
 
-const atack = (damage) => {
+const attack = (damage) => {
   if(playerMove == 0 && userHP != 0) {
-    var miss = Math.floor((Math.random() * 10) + 1); // chance de erro
+    const miss = Math.floor((Math.random() * 10) + 1); // chance de erro
     if(miss == 1) {
       document.getElementById('message').innerHTML = " Blastoise's attack missed! ";
     }
     else {
       document.getElementById('message').innerHTML = " Blastoise used water cannon "; // ataque
-      var critical = Math.floor((Math.random() * 10) + 1); // chanche de critico
+      const critical = Math.floor((Math.random() * 10) + 1); // chanche de critico
       if(critical == 4){
-        for(var x = 0; x < 2; x++){
-          opHP = opHP - damage; // dano critico
-        }
+        // Estou criando esse Array aplicando um map que subtrai do hp inimigo o dano para substuir o loop for para garantir o parádigma funcional do código
+        Array.from({ length:2 }).map(() => {{
+          opHP = opHP - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+      }});
       }
       else{
         opHP = opHP - damage; // sem critico
