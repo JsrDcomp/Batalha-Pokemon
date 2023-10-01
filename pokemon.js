@@ -1,18 +1,25 @@
-var userHP = 100;
+var  userHP= 100;
 var opHP = 100;
-
+var outUser = userHP
+var outOp =opHP
+/*campo de Batalha, POkemons , os quais estão em batalha  */
 let playerMove = 0;
+
+
+const advantage = foraOp == opHP ? 2 : 1
+const disadvantage = foraUser == userHP ? 0.5 :1
+/*Mecanica de tipo de vantagem e desvatagem de pokemon*/
 /* movimentos do usuário */
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
-const waterCannon = () => attackUser(1)
-const  waterPulse = () => attackUser(2)
-const surf = () => attackUser(3)
+const waterCannon = () => attackUser(1*advantage)
+const  waterPulse = () => attackUser(2*advantage)
+const surf = () => attackUser(3*advantage)
 const tackle = () => attackUser(4)
 
-const flameThrower = () => attackOp(1)
-const dragonClaw = () => attackOp(2)
-const ember = () => attackOp(3)
+const flameThrower = () => attackOp(1*disadvantage)
+const dragonClaw = () => attackOp(2*disadvantage)
+const ember = () => attackOp(3*disadvantage)
 const growl = () => attackOp(4)
 
 
@@ -29,15 +36,15 @@ const attackUser = (damage) => {
       if(critical == 4){
         // Estou criando esse Array aplicando um map que subtrai do hp inimigo o dano para substuir o loop for para garantir o parádigma funcional do código
         Array.from({ length:2 }).map(() => {{
-          opHP = opHP - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          foraOp = foraOp - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
       }});
       }
       else{
-        opHP = opHP - damage; // sem critico
+        foraOp = foraOp - damage; // sem critico
       }
-      if(opHP < 0){ opHP = 0} //faint
-        document.getElementById('apHP').innerHTML = opHP; // atualiza o hp
-      if(opHP == 0){
+      if(foraOp < 0){ foraOp = 0} //faint
+        document.getElementById('apHP').innerHTML = foraOp; // atualiza o hp
+      if(foraOp == 0){
         document.getElementById('message').innerHTML = " Charizard fainted! " // atualiza a mensagem
       }
     }
@@ -76,7 +83,7 @@ const attackOp = (damage) => {
 
 // função que seleciona os ataques do inimigo de forma aleatória
 const opAttack = () => { // continue
-  if(playerMove == 1 && opHP != 0) { 
+  if(playerMove == 1 && foraOp != 0) { 
   var move = Math.floor((Math.random() * 4) + 1); // escolhe um numero inteiro entre 1 e 4, e dependendo do numero, irá fazer um ataque aleatório
     if(move == 1){
       flameThrower()
