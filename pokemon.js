@@ -74,7 +74,6 @@ const attackOp = (damage) => {
   }
 }
 
-
 // função que seleciona os ataques do inimigo de forma aleatória
 const opAttack = () => { // continue
   if(playerMove == 1 && opHP != 0) { 
