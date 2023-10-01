@@ -1,13 +1,13 @@
-var  userHP= 100;
+var  outUser= 100;
 var opHP = 100;
-var outUser = userHP
+var outUser = outUser
 var outOp =opHP
 /*campo de Batalha, POkemons , os quais estão em batalha  */
 let playerMove = 0;
 
 
-const advantage = foraOp == opHP ? 2 : 1
-const disadvantage = foraUser == userHP ? 0.5 :1
+const advantage = outOp == opHP ? 2 : 1
+const disadvantage = outUser == outUser ? 0.5 :1
 /*Mecanica de tipo de vantagem e desvatagem de pokemon*/
 /* movimentos do usuário */
 
@@ -25,7 +25,7 @@ const growl = () => attackOp(4)
 
 // função que faz o ataque do usario com o dano passado como argumento
 const attackUser = (damage) => {
-  if(playerMove == 0 && userHP != 0) {
+  if(playerMove == 0 && outUser != 0) {
     const miss = Math.floor((Math.random() * 10) + 1); // chance de erro
     if(miss == 1) {
       document.getElementById('message').innerHTML = " Blastoise's attack missed! ";
@@ -36,15 +36,15 @@ const attackUser = (damage) => {
       if(critical == 4){
         // Estou criando esse Array aplicando um map que subtrai do hp inimigo o dano para substuir o loop for para garantir o parádigma funcional do código
         Array.from({ length:2 }).map(() => {{
-          foraOp = foraOp - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          outOp = outOp - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
       }});
       }
       else{
-        foraOp = foraOp - damage; // sem critico
+        outOp = outOp - damage; // sem critico
       }
-      if(foraOp < 0){ foraOp = 0} //faint
-        document.getElementById('apHP').innerHTML = foraOp; // atualiza o hp
-      if(foraOp == 0){
+      if(outOp < 0){ outOp = 0} //faint
+        document.getElementById('apHP').innerHTML = outOp; // atualiza o hp
+      if(outOp == 0){
         document.getElementById('message').innerHTML = " Charizard fainted! " // atualiza a mensagem
       }
     }
@@ -67,15 +67,15 @@ const attackOp = (damage) => {
       if(critical == 4){
         // Estou criando esse Array aplicando um map que subtrai do hp usário o dano para substuir o loop for para garantir o parádigma funcional do código
         Array.from({ length:2 }).map(() => {{
-          userHP = userHP - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          outUser = outUser - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
       }});
       }
       else{
-        userHP = userHP - damage
+        outUser = outUser - damage
       }
-  if(userHP < 0) { userHP = 0} // desmaio
-  document.getElementById('myHP').innerHTML = userHP; // atualiza o hp
-    if(userHP == 0) { // desmaiado
+  if(outUser < 0) { outUser = 0} // desmaio
+  document.getElementById('myHP').innerHTML = outUser; // atualiza o hp
+    if(outUser == 0) { // desmaiado
       document.getElementById('message').innerHTML = " Blastoise fainted! " // desmaiado
     }
   }
@@ -83,7 +83,7 @@ const attackOp = (damage) => {
 
 // função que seleciona os ataques do inimigo de forma aleatória
 const opAttack = () => { // continue
-  if(playerMove == 1 && foraOp != 0) { 
+  if(playerMove == 1 && outOp != 0) { 
   var move = Math.floor((Math.random() * 4) + 1); // escolhe um numero inteiro entre 1 e 4, e dependendo do numero, irá fazer um ataque aleatório
     if(move == 1){
       flameThrower()
