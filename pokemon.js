@@ -1,31 +1,44 @@
-var  outUser= 100;
-var opHP = 100;
-var outUser = outUser
-var outOp =opHP
+const battleState = {  //essa lista está substituindo as variaveis outUser, opHP e playerMove juntando todos como elementos de uma lista é possível fazer alterações neles para atualizar esses valores durante a batalha não vi necessidade de cópias já que a mutabilidade é aceitavel nesse caso (eu acho) 
+  outUser : 100,
+  opHP : 100,
+  playerMove:0
+}
+
+const checkDisadvantage = () => { //modifiquei provisoriamente as funções que checam vantagens e desvantagens para adaptar ao paradigma funcional espero também poder reutiliza-las em outros pokemon
+  return true 
+}
+const checkVantage = () => {
+  return true
+}
 /*campo de Batalha, POkemons , os quais estão em batalha  */
-let playerMove = 0;
 
 
-const advantage = outOp == opHP ? 2 : 1
-const disadvantage = outUser == outUser ? 0.5 :1
+
+const applyAdvantage = () => { 
+  return battleState.outOp == checkVantage? 2 : 1
+}
+const applyDisadvantage = () => {
+  return battleState.outUser == checkDisadvantage? 0.5 :1
+}
 /*Mecanica de tipo de vantagem e desvatagem de pokemon*/
+
 /* movimentos do usuário */
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
-const waterCannon = () => attackUser(1*advantage)
-const  waterPulse = () => attackUser(2*advantage)
-const surf = () => attackUser(3*advantage)
+const waterCannon = () => attackUser(1*applyAdvantage())
+const  waterPulse = () => attackUser(2*applyAdvantage())
+const surf = () => attackUser(3*applyDisadvantage())
 const tackle = () => attackUser(4)
 
-const flameThrower = () => attackOp(1*disadvantage)
-const dragonClaw = () => attackOp(2*disadvantage)
-const ember = () => attackOp(3*disadvantage)
+const flameThrower = () => attackOp(1*applyDisadvantage())
+const dragonClaw = () => attackOp(2*applyDisadvantage())
+const ember = () => attackOp(3*applyDisadvantage())
 const growl = () => attackOp(4)
 
 
 // função que faz o ataque do usario com o dano passado como argumento
 const attackUser = (damage) => {
-  if(playerMove == 0 && outUser != 0) {
+  if(battleState.playerMove == 0 && battleState.outUser != 0) {
     const miss = Math.floor((Math.random() * 10) + 1); // chance de erro
     if(miss == 1) {
       document.getElementById('message').innerHTML = " Blastoise's attack missed! ";
@@ -36,20 +49,23 @@ const attackUser = (damage) => {
       if(critical == 4){
         // Estou criando esse Array aplicando um map que subtrai do hp inimigo o dano para substuir o loop for para garantir o parádigma funcional do código
         Array.from({ length:2 }).map(() => {{
-          outOp = outOp - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          battleState.outOp = battleState.outOp - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
       }});
       }
       else{
-        outOp = outOp - damage; // sem critico
+        battleState.outOp = battleState.outOp - damage; // sem critico
       }
-      if(outOp < 0){ outOp = 0} //faint
-        document.getElementById('apHP').innerHTML = outOp; // atualiza o hp
-      if(outOp == 0){
+      if(battleState.outOp < 0){ battleState.outOp = 0} //faint
+        document.getElementById('apHP').innerHTML = battleState.outOp; // atualiza o hp
+      if(battleState.outOp == 0){
         document.getElementById('message').innerHTML = " Charizard fainted! " // atualiza a mensagem
+      } 
+      else { 
+        battleState.playerMove = 1;
       }
     }
     //espera();
-    playerMove = 1; // atualiza o movimento do jogador
+    battleState.playerMove = 1; // atualiza o movimento do jogador
 }
 }
 
@@ -67,24 +83,27 @@ const attackOp = (damage) => {
       if(critical == 4){
         // Estou criando esse Array aplicando um map que subtrai do hp usário o dano para substuir o loop for para garantir o parádigma funcional do código
         Array.from({ length:2 }).map(() => {{
-          outUser = outUser - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          battleState.outUser = battleState.outUser - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
       }});
       }
       else{
-        outUser = outUser - damage
+        battleState.outUser = battleState.outUser - damage
       }
-  if(outUser < 0) { outUser = 0} // desmaio
-  document.getElementById('myHP').innerHTML = outUser; // atualiza o hp
-    if(outUser == 0) { // desmaiado
+  if(battleState.outUser < 0) { battleState.outUser = 0} // desmaio
+  document.getElementById('myHP').innerHTML = battleState.outUser; // atualiza o hp
+    if(battleState.outUser == 0) { // desmaiado
       document.getElementById('message').innerHTML = " Blastoise fainted! " // desmaiado
+    }
+      else {
+      battleState.playerMove = 0
     }
   }
 }
 
 // função que seleciona os ataques do inimigo de forma aleatória
 const opAttack = () => { // continue
-  if(playerMove == 1 && outOp != 0) { 
-  var move = Math.floor((Math.random() * 4) + 1); // escolhe um numero inteiro entre 1 e 4, e dependendo do numero, irá fazer um ataque aleatório
+  if(battleState.playerMove == 1 && battleState.outOp != 0) { 
+  const move = Math.floor((Math.random() * 4) + 1); // escolhe um numero inteiro entre 1 e 4, e dependendo do numero, irá fazer um ataque aleatório
     if(move == 1){
       flameThrower()
     }else if(move==2){
@@ -94,6 +113,6 @@ const opAttack = () => { // continue
     }else{
       growl()
     } 
-    playerMove = 0; // atualiza a vez de quem joga
+    battleState.playerMove = 0; // atualiza a vez de quem joga
   }
 }
