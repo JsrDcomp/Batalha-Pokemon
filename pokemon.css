@@ -100,6 +100,30 @@ body {
   border-color: #666;
 }
 
+.box .items  button { /* fiz novos botões de items */
+  position: absolute ;
+  float: left;
+  background: #666;
+  border: 3px solid #888;
+  border-radius: 4px;
+  color: #fff;
+  font-family: monospace;
+  font-size: 20px;
+  line-height: 14px;
+  margin: 4px;
+  padding: 16px;
+  outline: none !important;
+}
+.box .items button:hover {
+  background: #777;
+  border-color: #999;
+}
+
+.box .items button:active {
+  background: #555;
+  border-color: #666;
+}
+
 .box .actions {
   position: relative;
   float: left;

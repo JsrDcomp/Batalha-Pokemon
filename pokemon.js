@@ -27,7 +27,7 @@ const applyDisadvantage = () => {
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
 const waterCannon = () => attackUser(1*applyAdvantage())
 const  waterPulse = () => attackUser(2*applyAdvantage())
-const surf = () => attackUser(3*applyDisadvantage())
+const surf = () => attackUser(3*applyAdvantage())
 const tackle = () => attackUser(4)
 
 const flameThrower = () => attackOp(1*applyDisadvantage())
@@ -49,15 +49,15 @@ const attackUser = (damage) => {
       if(critical == 4){
         // Estou criando esse Array aplicando um map que subtrai do hp inimigo o dano para substuir o loop for para garantir o parádigma funcional do código
         Array.from({ length:2 }).map(() => {{
-          battleState.outOp = battleState.outOp - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          battleState.opHP = battleState.opHP - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
       }});
       }
       else{
-        battleState.outOp = battleState.outOp - damage; // sem critico
+        battleState.opHP = battleState.opHP - damage; // sem critico
       }
-      if(battleState.outOp < 0){ battleState.outOp = 0} //faint
-        document.getElementById('apHP').innerHTML = battleState.outOp; // atualiza o hp
-      if(battleState.outOp == 0){
+      if(battleState.opHP < 0){ battleState.opHP = 0} //faint
+        document.getElementById('apHP').innerHTML = battleState.opHP; // atualiza o hp
+      if(battleState.opHP == 0){
         document.getElementById('message').innerHTML = " Charizard fainted! " // atualiza a mensagem
       } 
       else { 
@@ -102,7 +102,7 @@ const attackOp = (damage) => {
 
 // função que seleciona os ataques do inimigo de forma aleatória
 const opAttack = () => { // continue
-  if(battleState.playerMove == 1 && battleState.outOp != 0) { 
+  if(battleState.playerMove == 1 && battleState.opHP != 0) { 
   const move = Math.floor((Math.random() * 4) + 1); // escolhe um numero inteiro entre 1 e 4, e dependendo do numero, irá fazer um ataque aleatório
     if(move == 1){
       flameThrower()
@@ -116,3 +116,38 @@ const opAttack = () => { // continue
     battleState.playerMove = 0; // atualiza a vez de quem joga
   }
 }
+
+let isItem = false 
+/* fiz uma função items que ao ser chamada, usa o método document.querySelector é usado para selecionar o primeiro elemento no HTML que no caso,
+'.actions'. */
+const items = () => {
+  isItem = !isItem // inverte o modo (ataque ou itens)
+  const actions = document.querySelector('.actions') //  botões de ação
+  if (isItem) { 
+    actions.innerHTML = 
+      `<button onclick="useSmokeBomb()">Smoke Bomb</button>
+      <button onclick="useHealthPotion()">Health Potion</button>`
+  } else { 
+    actions.innerHTML = 
+      `<button onclick="waterCannon()">Water Cannon</button>
+      <button onclick="waterPulse()">Water Pulse</button>
+      <button onclick="surf()">Surf</button>
+      <button onclick="tackle()">Tackle</button>`
+  }
+}
+
+let potionUse = false 
+
+// função que verifica se o poção de cura foi usada, se não tiver recupera a vida e 'marca' a poção como usada
+const useHealthPotion = () => {
+  if (!potionUse) { // verifique se a poção de vida não foi usada
+    battleState.outUser = battleState.outUser + 10 
+    potionUse = true 
+    document.getElementById('message').innerHTML = "You used health potion!";
+  }else{
+    document.getElementById('message').innerHTML = "You already have used potion!";
+  }
+}
+
+// função useSmokeBomb (não está pronta ainda)
+const useSmokeBomb = () => {}
