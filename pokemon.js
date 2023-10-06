@@ -151,3 +151,11 @@ const useHealthPotion = () => {
 
 // função useSmokeBomb (não está pronta ainda)
 const useSmokeBomb = () => {}
+
+// fiz uma tela inicial que ao clicar em play, a função play faz o jogo aparecer com o mesmo principio da função items
+function play() {
+  document.querySelector('.startscreen').style.display = 'none'
+
+  document.querySelector('.game').style.display = 'block'
+  document.querySelector('.box').style.display = 'block'
+}
