@@ -117,9 +117,9 @@ const opAttack = () => { // continue
   }
 }
 
-let isItem = false 
 /* fiz uma função items que ao ser chamada, usa o método document.querySelector é usado para selecionar o primeiro elemento no HTML que no caso,
 '.actions'. */
+let isItem = false
 const items = () => {
   isItem = !isItem // inverte o modo (ataque ou itens)
   const actions = document.querySelector('.actions') //  botões de ação
@@ -149,8 +149,18 @@ const useHealthPotion = () => {
   }
 }
 
-// função useSmokeBomb (não está pronta ainda)
-const useSmokeBomb = () => {}
+// função useSmokeBomb funciona de maneira parecida com a useHealthPotion, porém pulando a jogada do adversário e deixando o jogador efetuar um segundo ataque.
+let smokeUse = false
+const useSmokeBomb = () => {
+  if (!smokeUse) { //verfica se foi usado
+  battleState.playerMove = 0
+  smokeUse = true
+  document.getElementById('message').innerHTML = "You used smoke bomb!";
+}else{
+  document.getElementById('message').innerHTML = "You already used smoke bomb!"
+}
+}
+
 
 // fiz uma tela inicial que ao clicar em play, a função play faz o jogo aparecer com o mesmo principio da função items
 function play() {
