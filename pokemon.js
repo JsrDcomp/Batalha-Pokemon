@@ -1,11 +1,27 @@
+
+
+const blastoise = {
+  name: "Blastoise",
+  hp: 100,
+  
+}
+
+
+const pikachu = {
+  name: "Pikachu",
+  hp: 100,
+  
+}
+
+
 const battleState = {  //essa lista está substituindo as variaveis outUser, opHP e playerMove juntando todos como elementos de uma lista é possível fazer alterações neles para atualizar esses valores durante a batalha não vi necessidade de cópias já que a mutabilidade é aceitavel nesse caso (eu acho) 
-  outUser : 100,
-  opHP : 100,
-  playerMove:0
+  attackker: blastoise,
+  opHP: 100,
+  playerMove: 0
 }
 
 const checkDisadvantage = () => { //modifiquei provisoriamente as funções que checam vantagens e desvantagens para adaptar ao paradigma funcional espero também poder reutiliza-las em outros pokemon
-  return true 
+  return true
 }
 const checkVantage = () => {
   return true
@@ -14,37 +30,42 @@ const checkVantage = () => {
 
 
 
-const applyAdvantage = () => { 
-  return battleState.outOp == checkVantage? 2 : 1
+const applyAdvantage = () => {
+  return battleState.outOp == checkVantage ? 2 : 1
 }
 const applyDisadvantage = () => {
-  return battleState.outUser == checkDisadvantage? 0.5 :1
+  return battleState.outUser == checkDisadvantage ? 0.5 : 1
 }
-/*Mecanica de tipo de vantagem e desvatagem de pokemon*/
+//Mecanica de tipo de vantagem e desvatagem de pokemon
 
 /* movimentos do usuário */
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
-const waterCannon = () => attackUser(1 * applyAdvantage(), "Water Cannon") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
-const waterPulse = () => attackUser(2 * applyAdvantage(), "Water Pulse")
-const surf = () => attackUser(3 * applyAdvantage(), "Surf")
-const tackle = () => attackUser(4, "Tacle")
+const waterCannon = () => attackUser(1 * applyAdvantage(), "Water Cannon", "Blastoise") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
+const waterPulse = () => attackUser(2 * applyAdvantage(), "Water Pulse", "Blastoise")
+const surf = () => attackUser(3 * applyAdvantage(), "Surf", "Blastoise")
+const tackle = () => attackUser(4, "Tacle", "Blastoise")
 
-const flameThrower = () => attackOp(1 * applyDisadvantage(), "Flame Thrower")
-const dragonClaw = () => attackOp(2 * applyDisadvantage(), "Dragon Claw")
-const ember = () => attackOp(3 * applyDisadvantage(), "Ember")
-const growl = () => attackOp(4, "Growl")
+const thundershock = () => attackUser(1 * applyAdvantage(), "Thunder Shock", "Pikachu") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
+const thunderbolt = () => attackUser(2 * applyAdvantage(), "Thunderbolt", "Pikachu")
+const irontail = () => attackUser(3 * applyAdvantage(), "Iron Tail", "Pikachu")
+const tack = () => attackUser(4, "Tack", "Pikachu")
+
+const flameThrower = () => attackOp(50 * applyDisadvantage(), "Flame Thrower")
+const dragonClaw = () => attackOp(50 * applyDisadvantage(), "Dragon Claw")
+const ember = () => attackOp(50 * applyDisadvantage(), "Ember")
+const growl = () => attackOp(50, "Growl")
 
 
 // função que faz o ataque do usario com o dano passado como argumento
-const attackUser = (damage, atackker) => {
+const attackUser = (damage, atackker, name) => {
   if (battleState.playerMove == 0 && battleState.outUser != 0) {
     const miss = Math.floor((Math.random() * 10) + 1); // chance de erro
     if (miss == 1) {
-      document.getElementById('message').innerHTML = " Blastoise's attack missed! ";
+      document.getElementById('message').innerHTML = ` ${name}'s attack missed!`;
     }
     else {
-      document.getElementById('message').innerHTML = `Blastoise used ${atackker}`; // ataque
+      document.getElementById('message').innerHTML = `${name} used ${atackker}` // ataque
       const critical = Math.floor((Math.random() * 10) + 1); // chanche de critico
       if (critical == 4) {
         // Estou criando esse Array aplicando um map que subtrai do hp inimigo o dano para substuir o loop for para garantir o parádigma funcional do código
@@ -60,6 +81,8 @@ const attackUser = (damage, atackker) => {
       if (battleState.opHP < 0) { battleState.opHP = 0 } //faint
       document.getElementById('apHP').innerHTML = battleState.opHP; // atualiza o hp
       if (battleState.opHP == 0) {
+        window.alert("You win")
+        switcH()
         document.getElementById('message').innerHTML = " Charizard fainted! " // atualiza a mensagem
       }
       else {
@@ -86,18 +109,15 @@ const attackOp = (damage, atackker) => {
       // Estou criando esse Array aplicando um map que subtrai do hp usário o dano para substuir o loop for para garantir o parádigma funcional do código
       Array.from({ length: 2 }).map(() => {
         {
-          battleState.outUser = battleState.outUser - damage // o arrai aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
+          battleState.attackker.hp = battleState.attackker.hp - damage // o array aqui cria um registro e aplica a função do map duas vezes devido ao length, se o ataque for um critico 
         }
       });
     }
     else {
-      battleState.outUser = battleState.outUser - damage
+      battleState.attackker.hp = battleState.attackker.hp - damage
     }
-    if (battleState.outUser < 0) { battleState.outUser = 0 } // desmaio
-    document.getElementById('myHP').innerHTML = battleState.outUser; // atualiza o hp
-    if (battleState.outUser == 0) { // desmaiado
-      document.getElementById('message').innerHTML = " Blastoise fainted! " // desmaiado
-    }
+    if (battleState.attackker.hp <= 0)  // desmaio
+    {document.getElementById('myHP').innerHTML = battleState.attackker.hp; }
     else {
       battleState.playerMove = 0
     }
@@ -126,9 +146,10 @@ const boolean = {
   isItem: false,
   potionUse: false,
   smokeUse: false,
-  isSwitch : false,
-  switchUse : false,
-  pikachuUse : false
+  isSwitch: false,
+  switchUse: false,
+  pikachuUse: false,
+  blastoiseUse: false
 }
 
 /* fiz uma função items que ao ser chamada, usa o método document.querySelector é usado para selecionar o primeiro elemento no HTML que no caso,
@@ -210,5 +231,5 @@ const switcH = () => {
     battleState.playerMove = 1
     document.getElementById('myHP').innerHTML = battleState.attackker.hp
   }
-}
+}  
 //Atualizei para Possibilitar as trocas de pokemons 
