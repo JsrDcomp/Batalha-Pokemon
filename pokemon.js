@@ -183,18 +183,32 @@ const play = () => {
 }
 
 const switcH = () => {
-  boolean.isSwitch = !boolean.isSwitch 
-  const actions = document.querySelector('.actions') 
-  if (boolean.isSwitch) {
+  boolean.pikachuUse = !boolean.pikachuUse
+  const actions = document.querySelector('.actions');
+  const pokemonuser = document.querySelector('.pokemonuser')
+  const pokemonuser2 = document.querySelector('.pokemonuser2')
+  if (boolean.pikachuUse) {
     actions.innerHTML =
-      `<button onclick="charizard()" title="Switch to charizard">Charizard</button>
-      <button onclick="pikachu()"title="Switch to pikachu">Pikachu</button>`
+      `<button onclick="thundershock()">Thunder Shock</button>
+      <button onclick="thunderbolt()">Thunderbolt</button>
+      <button onclick="irontail()">Iron Tail</button>
+      <button onclick="tack()">Tack</button>`;
+    pokemonuser.style.display = 'none'
+    pokemonuser2.style.display = 'block'
+    battleState.attackker = pikachu
+    battleState.playerMove = 1
+    document.getElementById('myHP').innerHTML = battleState.attackker.hp
   } else {
     actions.innerHTML =
       `<button onclick="waterCannon()">Water Cannon</button>
       <button onclick="waterPulse()">Water Pulse</button>
       <button onclick="surf()">Surf</button>
-      <button onclick="tackle()">Tackle</button>`
+      <button onclick="tackle()">Tackle</button>`;
+    pokemonuser.style.display = 'block'
+    pokemonuser2.style.display = 'none'
+    battleState.attackker = blastoise
+    battleState.playerMove = 1
+    document.getElementById('myHP').innerHTML = battleState.attackker.hp
   }
 }
-
+//Atualizei para Possibilitar as trocas de pokemons 

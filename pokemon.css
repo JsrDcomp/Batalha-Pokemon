@@ -27,7 +27,7 @@ body {
   width: 320px;
 }
 
-.opponent .pokemon {
+.opponent .pokemonenemy{ /*Imagem do  pokemon do inimigo */
   position: absolute;
   bottom: 0;
   right: 140px;
@@ -45,12 +45,20 @@ body {
   right: 40px;
   width: 320px;
 }
-
-.player .pokemon {
+.player .pokemonuser {  /*Imagem do  pokemon do usuario  */
   position: absolute;
   left: 100px;
   bottom: 10px;
   width: 160px;
+  
+}
+
+.player .pokemonuser2 { /*Imagem do 2 pokemon do usuario */
+  position: absolute;
+  left: 100px;
+  bottom: 10px;
+  width: 160px;
+  display: none;
 }
 
 .box {
