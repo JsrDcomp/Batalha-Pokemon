@@ -2,13 +2,11 @@
 const blastoise = {
   name: "Blastoise",
   hp: 100,
-  
 }
 
 const pikachu = {
   name: "Pikachu",
   hp: 100,
-  
 }
 
 //Blastoide esta no attackker pois ele é o comando inicial 
@@ -38,24 +36,24 @@ const applyDisadvantage = () => {
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
 /// novos ataques foram adicionados para o novo pokemon adicionado 
-const waterCannon = () => attackUser(1 * applyAdvantage(), "Water Cannon", "Blastoise") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
-const waterPulse = () => attackUser(2 * applyAdvantage(), "Water Pulse", "Blastoise")
-const surf = () => attackUser(3 * applyAdvantage(), "Surf", "Blastoise")
-const tackle = () => attackUser(4, "Tacle", "Blastoise")
+const waterCannon = () => attackUser(10 * applyAdvantage(), "Water Cannon", "Blastoise") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
+const waterPulse = () => attackUser(14 * applyAdvantage(), "Water Pulse", "Blastoise")
+const surf = () => attackUser(8 * applyAdvantage(), "Surf", "Blastoise")
+const tackle = () => attackUser(5, "Tacle", "Blastoise")
 
-const thundershock = () => attackUser(1 * applyAdvantage(), "Thunder Shock", "Pikachu") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
-const thunderbolt = () => attackUser(2 * applyAdvantage(), "Thunderbolt", "Pikachu")
-const irontail = () => attackUser(3 * applyAdvantage(), "Iron Tail", "Pikachu")
-const tack = () => attackUser(4, "Tack", "Pikachu")
+const thundershock = () => attackUser(13 * applyAdvantage(), "Thunder Shock", "Pikachu") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
+const thunderbolt = () => attackUser(10 * applyAdvantage(), "Thunderbolt", "Pikachu")
+const irontail = () => attackUser(8 * applyAdvantage(), "Iron Tail", "Pikachu")
+const tack = () => attackUser(6, "Tack", "Pikachu")
 
-const flameThrower = () => attackOp(50 * applyDisadvantage(), "Flame Thrower")
-const dragonClaw = () => attackOp(50 * applyDisadvantage(), "Dragon Claw")
-const ember = () => attackOp(50 * applyDisadvantage(), "Ember")
-const growl = () => attackOp(50, "Growl")
+const flameThrower = () => attackOp(22 * applyDisadvantage(), "Flame Thrower")
+const dragonClaw = () => attackOp(15 * applyDisadvantage(), "Dragon Claw")
+const ember = () => attackOp(13 * applyDisadvantage(), "Ember")
+const growl = () => attackOp(9, "Growl")
 
 // função que faz o ataque do usario com o dano passado como argumento
 const attackUser = (damage, atackker, name) => {
-//Função de ataque foram atualizadas para receber as instâncias do usuario  
+  //Função de ataque foram atualizadas para receber as instâncias do usuario  
   if (battleState.playerMove == 0 && battleState.outUser != 0) {
     const miss = Math.floor((Math.random() * 10) + 1); // chance de erro
     if (miss == 1) {
@@ -96,7 +94,7 @@ const attackUser = (damage, atackker, name) => {
 
 // função que faz o ataque do oponente com o dano passado como argumento
 const attackOp = (damage, atackker) => {
-  
+
   const miss = Math.floor((Math.random() * 10) + 1); // chance de erro
   if (miss == 1) {
     document.getElementById('message').innerHTML = " Charizard's attack missed! " // errou o ataque
@@ -112,7 +110,7 @@ const attackOp = (damage, atackker) => {
         }
       });
     }
-  
+
     else {
       battleState.attackker.hp = battleState.attackker.hp - damage
     }
@@ -120,16 +118,18 @@ const attackOp = (damage, atackker) => {
     document.getElementById('myHP').innerHTML = battleState.attackker.hp; // atualiza o h
     if (battleState.attackker.hp == 0) { // desmaiado
       window.alert(`${battleState.attackker.name} fainted`)
-      switcT()}
-    if( blastoise.hp == 0 && pikachu.hp == 0){
+      switcH() //troquei a outra função switch pois fazia a "mesma" coisa que essa
+    }
+    if (blastoise.hp == 0 && pikachu.hp == 0) {
       window.alert("YOU LOST")
-      location.reload()}
+      location.reload()
+    }
     else {
       battleState.playerMove = 0
     }
   }
 }
- 
+
 //Alteracões foram realizadas na const attackop para realizar troca dos pokemon do usuario assim que algum deles estiver desmaido
 
 // função que seleciona os ataques do inimigo de forma aleatória
@@ -181,10 +181,9 @@ const item = () => {
 // função que verifica se o poção de cura foi usada, se não tiver recupera a vida e 'marca' a poção como usada
 const useHealthPotion = () => {
   if (!boolean.potionUse) { // verifique se a poção de vida não foi usada
-    battleState.outUser = battleState.outUser + 10
+    battleState.outUser = battleState.outUser + 15
     boolean.potionUse = true
     document.getElementById('message').innerHTML = "You used health potion!";
-    battleState.playerMove = 1
   } else {
     document.getElementById('message').innerHTML = "You already used potion!";
   }
@@ -217,66 +216,28 @@ const switcH = () => {
   const actions = document.querySelector('.actions');
   const pokemonuser = document.querySelector('.pokemonuser')
   const pokemonuser2 = document.querySelector('.pokemonuser2')
-  if (boolean.pikachuUse&&battleState.attackker.hp !== 0) {
+  if (boolean.pikachuUse && pikachu.hp !==0) {//coloquei a condição de que só seja possivel trocar de pokemon caso o pokemon tenha mais que 0 de vida
     actions.innerHTML =
       `<button onclick="thundershock()">Thunder Shock</button>
       <button onclick="thunderbolt()">Thunderbolt</button>
       <button onclick="irontail()">Iron Tail</button>
       <button onclick="tack()">Tack</button>`;
-      pokemonuser.style.display = 'none'
-      pokemonuser2.style.display = 'block'
-      battleState.attackker = pikachu
-      document.getElementById('myHP').innerHTML = battleState.attackker.hp
-  } else { if(boolean.blastoiseUse&&battleState.attackker.hp !== 0){ actions.innerHTML =
-    `<button onclick="thundershock()">Thunder Shock</button>
-    <button onclick="thunderbolt()">Thunderbolt</button>
-    <button onclick="irontail()">Iron Tail</button>
-    <button onclick="tack()">Tack</button>`;
-  pokemonuser.style.display = 'none'
-  pokemonuser2.style.display = 'block'
-  battleState.attackker = pikachu
-  document.getElementById('myHP').innerHTML = battleState.attackker.hp
-}
-  else{
+    document.getElementById('message').innerHTML = "You switched to pikachu"
+    pokemonuser.style.display = 'none'
+    pokemonuser2.style.display = 'block'
+    battleState.attackker = pikachu
+    document.getElementById('myHP').innerHTML = battleState.attackker.hp
+  }
+  else if(blastoise.hp !==0) {//coloquei a condição de que só seja possivel trocar de pokemon caso o pokemon tenha mais que 0 de vida
     actions.innerHTML =
       `<button onclick="waterCannon()">Water Cannon</button>
       <button onclick="waterPulse()">Water Pulse</button>
       <button onclick="surf()">Surf</button>
       <button onclick="tackle()">Tackle</button>`;
+    document.getElementById('message').innerHTML = "You switched to blastoise"
     pokemonuser.style.display = 'block'
     pokemonuser2.style.display = 'none'
     battleState.attackker = blastoise
-    
     document.getElementById('myHP').innerHTML = battleState.attackker.hp
   }
-  }
-}
-//Troca automática para quando o pokemon atual desmaia ele vai trocar para o pokémon vivo atual 
-const switcT = () => {
-  boolean.pikachuUse = !boolean.pikachuUse
-  const actions = document.querySelector('.actions');
-  const pokemonuser = document.querySelector('.pokemonuser')
-  const pokemonuser2 = document.querySelector('.pokemonuser2')
-  if (blastoise.hp == 0) {
-    actions.innerHTML =
-      `<button onclick="thundershock()">Thunder Shock</button>
-      <button onclick="thunderbolt()">Thunderbolt</button>
-      <button onclick="irontail()">Iron Tail</button>
-      <button onclick="tack()">Tack</button>`;
-      pokemonuser.style.display = 'none'
-      pokemonuser2.style.display = 'block'
-      battleState.attackker = pikachu
-      document.getElementById('myHP').innerHTML = battleState.attackker.hp
-  }   if(pikachu.hp == 0){ actions.innerHTML =
-    `<button onclick="waterCannon()">Water Cannon</button>
-      <button onclick="waterPulse()">Water Pulse</button>
-      <button onclick="surf()">Surf</button>
-      <button onclick="tackle()">Tackle</button>`;
-    pokemonuser.style.display = 'block'
-    pokemonuser2.style.display = 'none'
-    battleState.attackker = blastoise
-  document.getElementById('myHP').innerHTML = battleState.attackker.hp
-}
-
-  
 }
