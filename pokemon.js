@@ -183,9 +183,10 @@ const item = () => {
 // função que verifica se o poção de cura foi usada, se não tiver recupera a vida e 'marca' a poção como usada
 const useHealthPotion = () => {
   if (!boolean.potionUse) { // verifique se a poção de vida não foi usada
-    battleState.outUser = battleState.outUser + 15
+    battleState.attackker.hp = battleState.attackker.hp +30
     boolean.potionUse = true
-    document.getElementById('message').innerHTML = "You used health potion!";
+    document.getElementById('message').innerHTML = "You used health potion!"
+    document.getElementById('myHP').innerHTML = battleState.attackker.hp
   } else {
     document.getElementById('message').innerHTML = "You already used potion!";
   }
