@@ -172,10 +172,10 @@ const item = () => {
       <button onclick="useHealthPotion()"title="Health potion heals when opponent plays. Use when its your turn">Health Potion</button>`
   } else {
     actions.innerHTML =
-      `<button onclick="waterCannon()">Water Cannon</button>
-      <button onclick="waterPulse()">Water Pulse</button>
-      <button onclick="surf()">Surf</button>
-      <button onclick="tackle()">Tackle</button>`
+    `<button onclick="petalDance()">Petal Dance</button>
+    <button onclick="razorLeaf()">Razor Leaf</button>
+    <button onclick="sludge()">Sludge</button>
+    <button onclick="tack()">Tackle</button>`
   }
 }
 
