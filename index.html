@@ -5,6 +5,7 @@
   <title>Pokemon</title>
   <script type="text/javascript" src="./pokemon.js"></script>
   <link rel="stylesheet" type="text/css" href="pokemon.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"> 
 </head>
 
 <body> <!-- adcionei a tag body -->
@@ -23,7 +24,7 @@
             <div class="pokeball"></div>
             <div class="pokeball"></div>
           </div>
-          <div id="apHP" class="hp-count">100</div>
+          <div id="apHP" class="hp-count">230</div> <!--Turbinada na vida do opnente-->
         </div>
         <span class="name">
           Charizard
@@ -47,28 +48,29 @@
           </div>
           <div id="myHP" class="hp-count">100</div>
         </div>
-        <span class="name">
-          Blastoise
-        </span>
+        <div> <!--Mudança para que o nome dentro da box seja atualizado junto do switch-->
+        <div class="name"> 
+          <p id="namepokemon">Blastoise</p>
+        </div>
+        </div>
         <span class="level">
           86
         </span>
       </div>
-      <img class="pokemonuser" src="http://bit.ly/blastoisegif" alt="A gif from blastoises back sprite" id="blaitoseimagem"  />
-      <img class="pokemonuser2" src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/pikachu.gif" alt="A gif from pikachu back sprite"  id="pikachuimagem" />      
-      <!-- Imagen de pokemon -->
+      <img class="pokemonuser" src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/venusaur.gif" alt="A gif from blastoises back sprite" id="blaitoseimagem"  />
+      <img class="pokemonuser2" src="http://bit.ly/blastoisegif" alt="A gif from pikachu back sprite"  id="pikachuimagem" /> <!--Troquei as imagens dos pokemons apenas-->
     </div>
   </div>
 
   <div class="box">
     <div id="message" class="message">
-      What should Blastoise do?
+      What should your pokemon do?
     </div>
-    <div class="actions">
-      <button onclick="waterCannon()">Water Cannon</button>
-      <button onclick="waterPulse()">Water Pulse</button>
-      <button onclick="surf()">Surf</button>
-      <button onclick="tackle()">Tackle</button>
+    <div class="actions"> <!--Mudança dos ataques que iniciam-->
+      <button onclick="petalDance()">Petal Dance</button>
+      <button onclick="razorLeaf()">Razor Leaf</button>
+      <button onclick="sludge()">Sludge</button>
+      <button onclick="tack()">Tackle</button>
     </div>
     <div class="continue">
       <button onclick="opAttack()">Continue</button>
@@ -78,9 +80,11 @@
       <button onclick="item()" title="Items button">Items</button> <!--botão items -->
     </div>
     <div class="swich">
-      <button onclick="switcH()" title="Swich button">swich</button> <!--botão swich -->
+      <button id="Switch" onclick="switcH()" title="Switch button" >switch</button> <!--botão swich -->
     </div>
   </div>
+  
 </body>
+
 
 </html>

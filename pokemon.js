@@ -1,55 +1,57 @@
 //Separei dois pokemons para efetuar as trocas
 const blastoise = {
   name: "Blastoise",
+  type: "water",
   hp: 100,
 }
 
-const pikachu = {
-  name: "Pikachu",
+const venasaur = { // mudei o pokemon para que haja desvantagem para o jogador também
+  name: "Venasaur",
+  type: "grass",
   hp: 100,
 }
 
 //Blastoide esta no attackker pois ele é o comando inicial 
 const battleState = {  //essa lista está substituindo as variaveis outUser, opHP e playerMove juntando todos como elementos de uma lista é possível fazer alterações neles para atualizar esses valores durante a batalha não vi necessidade de cópias já que a mutabilidade é aceitavel nesse caso (eu acho) 
-  attackker: blastoise,
-  opHP: 100,
+  attackker: venasaur,
+  opHP: 230,
+  type: "fire",
   playerMove: 0
 }
 
-const checkDisadvantage = () => { //modifiquei provisoriamente as funções que checam vantagens e desvantagens para adaptar ao paradigma funcional espero também poder reutiliza-las em outros pokemon
-  return true
+//vantagem e desvatagem 
+//aqui são passados o tipo dos dois pokemons para que sejam atribuidos os multiplicadores
+const applyAdvantage = (typeAtk,typePKN) => {
+  if (typeAtk == "water" && typePKN == "fire" || typeAtk == "fire" && typePKN == "grass") {
+    return 2;
+  } else if (typeAtk == "fire" && typePKN == "water" || typeAtk == "grass" && typePKN == "fire") {
+    return 0.5;
+  } else {
+    return 1;
+  }
 }
-const checkVantage = () => {
-  return true
-}
-/*campo de Batalha, Pokemons , os quais estão em batalha  */
-
-const applyAdvantage = () => {
-  return battleState.outOp == checkVantage ? 2 : 1
-}
-const applyDisadvantage = () => {
-  return battleState.outUser == checkDisadvantage ? 0.5 : 1
-}
-//Mecanica de tipo de vantagem e desvatagem de pokemon
-
 /* movimentos do usuário */
 
 /* ~ Troquei as funções dos ataques do jogador para constantes e assim reutilizar o código na função atack */
 /// novos ataques foram adicionados para o novo pokemon adicionado 
-const waterCannon = () => attackUser(10 * applyAdvantage(), "Water Cannon", "Blastoise") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
-const waterPulse = () => attackUser(14 * applyAdvantage(), "Water Pulse", "Blastoise")
-const surf = () => attackUser(8 * applyAdvantage(), "Surf", "Blastoise")
-const tackle = () => attackUser(5, "Tacle", "Blastoise")
+/*movimentos agora recebem applyAdvantage junto das informações de tipo da lista de cada pokemon para multiplicar o ataque de acordo 
+com o resultado da função */
 
-const thundershock = () => attackUser(13 * applyAdvantage(), "Thunder Shock", "Pikachu") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
-const thunderbolt = () => attackUser(10 * applyAdvantage(), "Thunderbolt", "Pikachu")
-const irontail = () => attackUser(8 * applyAdvantage(), "Iron Tail", "Pikachu")
-const tack = () => attackUser(6, "Tack", "Pikachu")
+const waterCannon = () => attackUser(30 * applyAdvantage(battleState.attackker.type, battleState.type), "Water Cannon", "Blastoise") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
+const waterPulse = () => attackUser(25 * applyAdvantage(battleState.attackker.type, battleState.type), "Water Pulse", "Blastoise")
+const surf = () => attackUser(20 * applyAdvantage(battleState.attackker.type,battleState.type), "Surf", "Blastoise")
+const tackle = () => attackUser(10, "Tackle", "Blastoise")
 
-const flameThrower = () => attackOp(22 * applyDisadvantage(), "Flame Thrower")
-const dragonClaw = () => attackOp(15 * applyDisadvantage(), "Dragon Claw")
-const ember = () => attackOp(13 * applyDisadvantage(), "Ember")
-const growl = () => attackOp(9, "Growl")
+const petalDance = () => attackUser(30 * applyAdvantage(battleState.attackker.type, battleState.type), "Petal Dance", "Venasaur") //passei os nomes dos ataques como parametro para aparecer no HTML o nome
+const razorLeaf = () => attackUser(25 * applyAdvantage(battleState.attackker.type, battleState.type), " Razor Leaf", "Venasaur")
+const sludge  = () => attackUser(20, "Sludge-poison", "Venasaur")
+const tack = () => attackUser(10,"Tackle", "Venasaur")
+
+const flameThrower = () => attackOp(40 * applyAdvantage(battleState.type, battleState.attackker.type), "Flame Thrower")
+const dragonClaw = () => attackOp(30, "Dragon Claw")
+const ember = () => attackOp(25 * applyAdvantage(battleState.type, battleState.attackker.type), "Ember")
+const growl = () => attackOp(20,"Growl")
+
 
 // função que faz o ataque do usario com o dano passado como argumento
 const attackUser = (damage, atackker, name) => {
@@ -120,7 +122,7 @@ const attackOp = (damage, atackker) => {
       window.alert(`${battleState.attackker.name} fainted`)
       switcH() //troquei a outra função switch pois fazia a "mesma" coisa que essa
     }
-    if (blastoise.hp == 0 && pikachu.hp == 0) {
+    if (blastoise.hp == 0 && venasaur.hp == 0) {
       window.alert("YOU LOST")
       location.reload()
     }
@@ -156,7 +158,7 @@ const boolean = {
   smokeUse: false,
   isSwitch: false,
   switchUse: false,
-  pikachuUse: false
+  blastoiseUse: false
 }
 
 /* Fiz uma função items que ao ser chamada, usa o método document.querySelector é usado para selecionar o primeiro elemento no HTML que no caso,
@@ -210,34 +212,36 @@ const play = () => {
 }
 
 //Atualizei para Possibilitar as trocas de pokemons 
-
-const switcH = () => {
-  boolean.pikachuUse = !boolean.pikachuUse
+// o pokemon inicial agora é um que faz o jogador iniciar com uma desvantagem
+const switcH = () => { //precisei mudar o switch para que o novo pokemon funcione aqui, também fiz uma mudança nas linhas 231 e 244 e no html para atualizar o nome do pokemon na hora da troca
+  boolean.blastoiseUse = !boolean.blastoiseUse
   const actions = document.querySelector('.actions');
   const pokemonuser = document.querySelector('.pokemonuser')
   const pokemonuser2 = document.querySelector('.pokemonuser2')
-  if (boolean.pikachuUse && pikachu.hp !==0) {//coloquei a condição de que só seja possivel trocar de pokemon caso o pokemon tenha mais que 0 de vida
-    actions.innerHTML =
-      `<button onclick="thundershock()">Thunder Shock</button>
-      <button onclick="thunderbolt()">Thunderbolt</button>
-      <button onclick="irontail()">Iron Tail</button>
-      <button onclick="tack()">Tack</button>`;
-    document.getElementById('message').innerHTML = "You switched to pikachu"
-    pokemonuser.style.display = 'none'
-    pokemonuser2.style.display = 'block'
-    battleState.attackker = pikachu
-    document.getElementById('myHP').innerHTML = battleState.attackker.hp
-  }
-  else if(blastoise.hp !==0) {//coloquei a condição de que só seja possivel trocar de pokemon caso o pokemon tenha mais que 0 de vida
+  if (boolean.blastoiseUse && blastoise.hp !==0) {//coloquei a condição de que só seja possivel trocar de pokemon caso o pokemon tenha mais que 0 de vida
     actions.innerHTML =
       `<button onclick="waterCannon()">Water Cannon</button>
       <button onclick="waterPulse()">Water Pulse</button>
       <button onclick="surf()">Surf</button>
       <button onclick="tackle()">Tackle</button>`;
-    document.getElementById('message').innerHTML = "You switched to blastoise"
-    pokemonuser.style.display = 'block'
-    pokemonuser2.style.display = 'none'
+    document.getElementById('message').innerHTML = "You switched to Blastoise"
+    pokemonuser.style.display = 'none'
+    pokemonuser2.style.display = 'block'
     battleState.attackker = blastoise
     document.getElementById('myHP').innerHTML = battleState.attackker.hp
+    document.getElementById('namepokemon').innerHTML = battleState.attackker.name
+  }
+  else if(blastoise.hp !==0) {//coloquei a condição de que só seja possivel trocar de pokemon caso o pokemon tenha mais que 0 de vida
+    actions.innerHTML =
+      ` <button onclick="petalDance()">Petal Dance</button>
+      <button onclick="razorLeaf()">Razor Leaf</button>
+      <button onclick="sludge()">Sludge</button>
+      <button onclick="tack()">Tackle</button>`;
+    document.getElementById('message').innerHTML = "You switched to Venasaur"
+    pokemonuser.style.display = 'block'
+    pokemonuser2.style.display = 'none'
+    battleState.attackker = venasaur
+    document.getElementById('myHP').innerHTML = battleState.attackker.hp
+    document.getElementById('namepokemon').innerHTML = battleState.attackker.name
   }
 }
